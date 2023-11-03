@@ -1,0 +1,9 @@
+<h1>Toutes les Wishlists</h1>
+
+<ul>
+    {% for wishlist in wishlists %}
+        <li>
+            {{ wishlist.wishlistId }} - {{ wishlist.pseudo }} : {{ wishlist.productId }}
+        </li>
+    {% endfor %}
+</ul>
