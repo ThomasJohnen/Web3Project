@@ -1,0 +1,47 @@
+<!-- user_operations.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Information</title>
+</head>
+<body>
+    {% if user_data %}
+        <h1>User Information</h1>
+        <p>Name: {{ user_data.name }}</p>
+        <p>First Name: {{ user_data.firstname }}</p>
+        <p>Username: {{ user_data.pseudo }}</p>
+        <form method="post" action="{% url 'user_operations' pseudo=user_data.pseudo %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete">
+            <input type="submit" value="Delete User">
+        </form>
+        <h2>Update User</h2>
+        <form method="post" action="{% url 'user_operations' pseudo=user_data.pseudo %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update">
+            <label for="name">Name:</label>
+            <input type="text" name="name" value="{{ user_data.name }}" required><br>
+            <label for="firstname">First Name:</label>
+            <input type="text" name="firstname" value="{{ user_data.firstname }}" required><br>
+            <label for="pseudo">Username:</label>
+            <input type="text" name="pseudo" value="{{ user_data.pseudo }}" required><br>
+            <input type="submit" value="Update User">
+        </form>
+    {% else %}
+        {% if create_user %}
+            <h1>Create a New User</h1>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="create">
+                <label for="name">Name:</label>
+                <input type="text" name="name" required><br>
+                <label for="firstname">First Name:</label>
+                <input type="text" name="firstname" required><br>
+                <input type="submit" value="Create User">
+            </form>
+        {% else %}
+            <p>{{ error_message }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
