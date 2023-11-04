@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "products.apps.ProductsConfig",
-    "WishList.apps.WishlistConfig",
+    "wishlists.apps.WishlistsConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
