@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views import View
 from .models import User
 
+
 class UserOperationsView(View):
     def get(self, request, pseudo):
         user = User.read_user(pseudo)
