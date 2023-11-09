@@ -3,7 +3,7 @@ from products.models import Product
 
 
 class Wishlist(models.Model):
-    wishlistId = models.AutoField(primary_key=True)
+    wishlistId = models.IntegerField(primary_key=True)
     pseudo = models.CharField(max_length=200)
     productId = models.ForeignKey(Product, on_delete=models.CASCADE)
 
@@ -12,8 +12,13 @@ class Wishlist(models.Model):
 
     @classmethod
     def add_product_to_wishlist(cls, pseudo, productId):
-        wish_list = cls(pseudo=pseudo, product_id=productId)
-        wish_list.save()
+        try:
+            product = Product.objects.get(pk=productId)
+            wish_list = cls(pseudo=pseudo, productId=product)
+            wish_list.save()
+        except Product.DoesNotExist:
+            # Gérer le cas où le produit n'existe pas
+            print(f"Le produit avec l'ID {productId} n'existe pas.")
 
     @classmethod
     def delete_product_from_wishlist(cls, pseudo, productId):
@@ -25,7 +30,7 @@ class Wishlist(models.Model):
             return False
 
     @classmethod
-    def get_wishlist(cls, pseudo):
+    def get_wishlist_pseudo(cls, pseudo):
         wishlists = cls.objects.filter(pseudo=pseudo)
         product_info = []
         for wishlist in wishlists:
@@ -40,6 +45,10 @@ class Wishlist(models.Model):
                 # Handle the case where the product doesn't exist
                 pass
         return product_info
+
+    @classmethod
+    def get_wishlist_id(cls, wishlist_id):
+        return cls.objects.get(wishlistId=wishlist_id)
 
     @classmethod
     def delete_wishlist(cls, pseudo):
