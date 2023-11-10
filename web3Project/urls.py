@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
     path('products/', include('products.urls')),
     path('wishlists/', include('wishlists.urls')),
     path('users/', include('users.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

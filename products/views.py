@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Product
 
+from django.contrib.auth.decorators import login_required
+
 
 @csrf_exempt
 def create_product(request):
@@ -19,6 +21,7 @@ def create_product(request):
     return JsonResponse({'message': 'Method not allowed'}, status=405)
 
 
+@login_required
 def get_all_products(request):
     if request.method == 'GET':
         products = Product.read_all()
